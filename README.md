@@ -4,7 +4,7 @@ Install and manage Model Context Protocol (MCP) packages as required by your cur
 
 It can:
 
-* List some fake MCPs (`list_available_mcps`)
+* List some MCPs (`list_available_mcps`)
 * Tell you more about a specific MCP (`get_mcp_details`)
 * Look at your `package.json` or `requirements.txt` to suggest useful MCPs (`suggest_mcps`)
 * Provide installation commands for suggested MCPs (`install_mcps`)
