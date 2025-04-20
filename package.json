@@ -1,0 +1,35 @@
+{
+  "name": "giga-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "recurse-mcp": "./build/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && chmod 755 build/index.js",
+    "start": "node src/index.js",
+    "dev": "npx nodemon --watch src src/index.js"
+  },
+  "keywords": [],
+  "author": "Namanyay Goel",
+  "license": "AGPL-3.0-or-later",
+  "description": "MCP Recommender server for suggesting and installing Model Context Protocol packages",
+  "files": [
+    "build"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.1",
+    "axios": "^1.8.4",
+    "dotenv": "^16.5.0",
+    "express": "^4.18.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "supabase": "0"
+  }
+}
