@@ -25,3 +25,7 @@ It can:
     node src/index.js
     ```
 5.  Connect to an MCP client like Cursor or Windsurf via `https://localhost:9000/sse`
+
+## License
+
+This project is licensed under the AGPL-3.0-only license - see the [LICENSE](LICENSE) file for details.

@@ -14,7 +14,7 @@
   },
   "keywords": [],
   "author": "Namanyay Goel",
-  "license": "AGPL-3.0-or-later",
+  "license": "AGPL-3.0-only",
   "description": "MCP Recommender server for suggesting and installing Model Context Protocol packages",
   "files": [
     "build"
