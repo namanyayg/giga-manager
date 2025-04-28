@@ -1,6 +1,6 @@
 {
   "name": "giga-mcp",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cp -r src/* dist/ && chmod 755 dist/index.js",
+    "build": "cp -r src/* dist/ && echo '#!/usr/bin/env node' | tr -d \"'\" > dist/index.js.tmp && cat dist/index.js >> dist/index.js.tmp && mv dist/index.js.tmp dist/index.js && chmod 755 dist/index.js",
     "prepublishOnly": "npm run build",
     "start": "node dist/index.js",
     "dev": "npx nodemon --watch src src/index.js"
