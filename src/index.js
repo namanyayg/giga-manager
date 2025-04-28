@@ -21,7 +21,7 @@ ${FILEPATHS.PROJECT_MEMORY}
 TO HAVE FULL CONTEXT, THEN RESPOND.
 
 Based on the conversation, you might need to update the above files. ALWAYS DO THAT WITH THE LEAST AMOUNT OF TEXT, NO OVERLY DETAILED EXPLANATIONS, NO BUZZWORDS, NO FLUFF.
-
+DO NOT ADD ANYTHING THAT THE USER HAS NOT EXPLICITLY SAID. Do not create additional details, do not add more info, just write the LEAST amount of info that the user has asked for.
 FOLLOW ALL INSTRUCTIONS BELOW EVERY TIME YOU TALK:
 
 <ProjectDocumentation>
