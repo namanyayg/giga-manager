@@ -34,7 +34,11 @@ FOLLOW ALL INSTRUCTIONS BELOW EVERY TIME YOU TALK:
 <ProjectDocumentation>
 FILE: ${FILEPATHS.PROJECT_DOCUMENTATION}
 
-First, review the project documentation file FULLY. If the user is saying something that contradicts the current documentation, ASK the user, then update the documentation to reflect the new information.
+First, review the project documentation file FULLY. 
+
+If the project file does not exist, ASK THE USER more details about what they want to do and create the file with EXACTLY what they say (don't add useless extra info)
+
+If the user is saying something that contradicts the current documentation, ASK the user, then update the documentation to reflect the new information.
 
 Each and EVERY WORD in the documentation must be accurate, if you think the documentation is wrong, ASK THE USER AND REMOVE IRRELEVANT INFORMATION.
 
