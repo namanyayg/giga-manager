@@ -15,7 +15,16 @@ This MCP automatically manages your project and tasks via files:
 
 ## Installation
 
-1. Install the MCP in your IDE:
+1. Automatically install `giga-mcp` in the client of your choice:
+
+```sh
+npx -y install-mcp -i "npx -y giga-mcp" --client cursor # or windsurf, cline, etc
+```
+
+* Installation command: `npx -y giga-mcp`
+* MCP name: `giga-mcp`
+
+Or, install it manually by modifying your JSON file:
 
 ```json
 {
