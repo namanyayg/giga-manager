@@ -46,6 +46,9 @@ Or, install it manually by modifying your JSON file:
 EVERY TIME RUN `giga_autorun` TOOL CALL AS THE FIRST THING. DO THAT BEFORE DOING ANYTHING ELSE. STRICTLY FOLLOW ALL INSTRUCTIONS FROM THE RESULT FIRST!
 ```
 
+https://github.com/user-attachments/assets/d98863a2-a5d4-4fd0-b301-de497fc20cc9
+
+
 ## Features
 
 * Automated project documentation management
