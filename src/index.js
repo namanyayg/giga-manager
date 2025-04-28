@@ -115,31 +115,6 @@ const FileManager = {
 };
 
 /**
- * Project Documentation Manager
- */
-const ProjectDocumentation = {
-  /**
-   * Update project documentation
-   */
-  update: (content, action = 'append') => {
-    const filePath = FileManager.getProjectFilePath('project.md');
-    const currentContent = FileManager.readFile(filePath);
-    const newContent = action === 'append' 
-      ? `${currentContent}\n\n${content}`
-      : content;
-    FileManager.writeFile(filePath, newContent);
-  },
-
-  /**
-   * Get current project documentation
-   */
-  get: () => {
-    const filePath = FileManager.getProjectFilePath('project.md');
-    return FileManager.readFile(filePath);
-  }
-};
-
-/**
  * Create a new MCP server instance
  */
 const server = new McpServer({

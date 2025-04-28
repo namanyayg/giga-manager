@@ -32,7 +32,7 @@ The MCP server follows a modular architecture with the following components:
    - Environment-based configuration
 
 ## Technical Stack
-- Backend: Node.js/TypeScript
+- Backend: Node.js/JavaScript
 - MCP Protocol: `@modelcontextprotocol/sdk`
 - Server: Express.js
 - Real-time Communication: Server-Sent Events (SSE)
