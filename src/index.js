@@ -3,281 +3,141 @@ import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { z } from "zod";
 import express from "express";
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
 
 dotenv.config();
+
+const FILEPATHS = {
+  PROJECT_DOCUMENTATION: ".giga/project.md",
+  PROJECT_MEMORY: ".giga/memory.md",
+}
+
+/**
+ * @type {Object.<string, string>} PROMPTS - Centralized prompts used throughout the application
+ */
+const PROMPTS = {
+  // Giga autorun prompt
+  GIGA_AUTORUN: `You are an expert project manager and help the user in managing their project and tasks.
+
+FOR EVERY PROMPT BY THE USER, ALWAYS FIRST READ ALL PROJECT DOCUMENTATION:
+
+${FILEPATHS.PROJECT_DOCUMENTATION}
+${FILEPATHS.PROJECT_MEMORY}
+
+TO HAVE FULL CONTEXT, THEN RESPOND.
+
+Based on the conversation, you might need to update the above files. ALWAYS DO THAT WITH THE LEAST AMOUNT OF TEXT, NO OVERLY DETAILED EXPLANATIONS, NO BUZZWORDS, NO FLUFF.
+
+FOLLOW ALL INSTRUCTIONS BELOW EVERY TIME YOU TALK:
+
+<ProjectDocumentation>
+FILE: ${FILEPATHS.PROJECT_DOCUMENTATION}
+
+First, review the project documentation file FULLY. If the user is saying something that contradicts the current documentation, ASK the user, then update the documentation to reflect the new information.
+
+Each and EVERY WORD in the documentation must be accurate, if you think the documentation is wrong, ASK THE USER AND REMOVE IRRELEVANT INFORMATION.
+
+If the conversation contains information relating to a high-level understanding of the project, update the file at ${FILEPATHS.PROJECT_DOCUMENTATION} accordingly. This includes:
+
+- Project architecture and design decisions
+- Core functionality and features
+- Important technical decisions and their rationale
+- Project goals and objectives
+- Do not include information about setup, deployment, testing, or other non-project-related information.
+
+While managing this, it is MOST IMPORTANT to not hallucinate or make up information. Write less, but be accurate about what the user has said. Rather than hallucinating information, ASK THE USER FOR MORE INFORMATION if you are unsure.
+
+The documentation serves as a single source of truth for the project's technical understanding.
+</ProjectDocumentation>
+
+<ProjectMemory>
+FILE: ${FILEPATHS.PROJECT_MEMORY}
+
+This file contains "memory" or instructions that the user wants to follow.
+
+This might include preferences about code style, what technical libraries should and should not be used, and any general instructions about the project.
+</ProjectMemory>
+`
+};
+
+/**
+ * @type {Object.<string, string>} MESSAGES - Centralized error and system messages used throughout the application
+ */
+const MESSAGES = {
+  // Error messages
+  ERROR_DOCUMENTATION_UPDATE: "Error generating documentation update prompt: {error}",
+  ERROR_DOCUMENTATION_READ: "Error reading project documentation: {error}",
+  
+  // Server messages
+  SERVER_START: "Giga MCP server running on port {port}",
+  MESSAGE_RECEIVED: "Received message"
+};
 
 const app = express();
 
 /**
- * A map of mock MCPs available for installation
- * In a real implementation, this would be fetched from a registry or API
+ * File Management Utilities
  */
-const AVAILABLE_MCPS = {
-  "supabase": {
-    name: "supabase",
-    description: "Connect to Supabase databases and services",
-    installation: {
-      command: "npx -y @supabase/mcp-server-supabase@latest --access-token",
-    },
-    category: "database",
+const FileManager = {
+  /**
+   * Get the path to the .giga directory
+   */
+  getGigaDir: () => path.join(process.cwd(), '.giga'),
+
+  /**
+   * Ensure a directory exists
+   */
+  ensureDir: (dirPath) => {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+    return dirPath;
   },
-  "prisma": {
-    name: "prisma",
-    description: "Connect to Prisma databases and services",
-    installation: {
-      command: "npx -y prisma mcp",
-    },
-    category: "database",
+
+  /**
+   * Read a file's content
+   */
+  readFile: (filePath) => {
+    if (fs.existsSync(filePath)) {
+      return fs.readFileSync(filePath, 'utf8');
+    }
+    return '';
   },
+
+  /**
+   * Get the path for a specific project file
+   */
+  getProjectFilePath: (filename) => {
+    const gigaDir = FileManager.ensureDir(FileManager.getGigaDir());
+    return path.join(gigaDir, filename);
+  }
 };
-
-/**
- * Helper function to format MCP responses
- * @param {Object|Array} data - The data to include in the response
- * @param {String|null} errorMessage - Optional error message
- * @returns {Object} Formatted MCP response
- */
-function formatMcpResponse(data, errorMessage = null) {
-  if (errorMessage || !data) {
-    return {
-      content: [
-        {
-          type: "text",
-          text: errorMessage || "Failed to process request",
-        },
-      ],
-    };
-  }
-
-  // If data is an object or array, convert to formatted JSON string
-  const formattedData = typeof data === 'object' 
-    ? JSON.stringify(data, null, 2)
-    : data.toString();
-
-  return {
-    content: [
-      {
-        type: "text",
-        text: formattedData,
-      },
-    ],
-  };
-}
-
-/**
- * Parse a package.json file to extract dependencies
- * @param {String} content - Content of package.json
- * @returns {Object} Object containing dependencies, devDependencies
- */
-function parsePackageJson(content) {
-  try {
-    const packageData = JSON.parse(content);
-    return {
-      dependencies: packageData.dependencies || {},
-      devDependencies: packageData.devDependencies || {}
-    };
-  } catch (error) {
-    console.error("Error parsing package.json:", error);
-    return { dependencies: {}, devDependencies: {} };
-  }
-}
-
-/**
- * Parse a requirements.txt file to extract dependencies
- * @param {String} content - Content of requirements.txt
- * @returns {Array} Array of dependency strings
- */
-function parseRequirementsTxt(content) {
-  // Split by newline and filter out empty lines and comments
-  return content
-    .split('\n')
-    .map(line => line.trim())
-    .filter(line => line && !line.startsWith('#'));
-}
-
-/**
- * Analyze dependencies and suggest relevant MCPs
- * @param {Object} dependencyData - The extracted dependencies
- * @param {String} fileType - Type of dependency file ('package.json' or 'requirements.txt')
- * @returns {Array} Suggested MCPs with relevance scores
- */
-function analyzeDependenciesAndSuggestMcps(dependencyData, fileType) {
-  // In a real implementation, this would use a more sophisticated algorithm
-  // to match dependencies to relevant MCPs
-  
-  const suggestions = [];
-  const dependencyList = fileType === 'package.json' 
-    ? [...Object.keys(dependencyData.dependencies), ...Object.keys(dependencyData.devDependencies)]
-    : dependencyData;
-
-  // Mock suggestion logic - in real implementation, this would be more sophisticated
-  const dependencyMatchers = [
-    { 
-      patterns: ['supabase'], 
-      mcp: AVAILABLE_MCPS.supabase, 
-      relevance: 0.85, 
-      reason: "Supabase or PostgreSQL dependencies detected" 
-    },
-    { 
-      patterns: ['prisma'], 
-      mcp: AVAILABLE_MCPS.prisma, 
-      relevance: 0.8, 
-      reason: "Prisma dependencies detected" 
-    }
-  ];
-
-  dependencyMatchers.forEach(matcher => {
-    if (dependencyList.some(dep => matcher.patterns.some(pattern => dep.includes(pattern)))) {
-      suggestions.push({
-        mcp: matcher.mcp,
-        relevance: matcher.relevance,
-        reason: matcher.reason
-      });
-    }
-  });
-
-  return suggestions.sort((a, b) => b.relevance - a.relevance);
-}
 
 /**
  * Create a new MCP server instance
  */
 const server = new McpServer({
-  name: "mcp-recommender",
+  name: "giga-mcp",
   version: "1.0.0",
-  capabilities: {
-    resources: {},
-    tools: {},
-  },
 });
 
-// Register tools
-
 /**
- * List all available MCPs
+ * Get giga_autorun prompt template
  */
 server.tool(
-  "list_available_mcps",
-  "List all available Model Context Protocol (MCP) packages",
-  {
-    category: z.string().optional().describe("Filter MCPs by category"),
-    sort_by: z.enum(["name", "popularity"]).optional().describe("Sort results by name or popularity"),
-  },
-  async ({ category, sort_by }) => {
-    let mcps = Object.values(AVAILABLE_MCPS);
-    
-    // Apply category filter if provided
-    if (category) {
-      mcps = mcps.filter(mcp => mcp.category === category);
-    }
-    
-    // Apply sorting if provided
-    if (sort_by) {
-      mcps = sort_by === "name" 
-        ? mcps.sort((a, b) => a.name.localeCompare(b.name))
-        : mcps.sort((a, b) => b.popularity - a.popularity);
-    }
-    
-    return formatMcpResponse(mcps);
-  }
-);
-
-/**
- * Get details about a specific MCP
- */
-server.tool(
-  "get_mcp_details",
-  "Get detailed information about a specific MCP",
-  {
-    mcp_name: z.string().describe("Name of the MCP to get details for"),
-  },
-  async ({ mcp_name }) => {
-    const mcp = AVAILABLE_MCPS[mcp_name.toLowerCase()];
-    
-    if (!mcp) {
-      return formatMcpResponse(null, `MCP '${mcp_name}' not found`);
-    }
-    
-    return formatMcpResponse(mcp);
-  }
-);
-
-/**
- * Suggest MCPs based on dependencies in package.json or requirements.txt
- */
-server.tool(
-  "suggest_mcps",
-  "Suggest relevant MCPs based on project dependencies",
-  {
-    file_content: z.string().describe("Content of package.json or requirements.txt file"),
-    file_type: z.enum(["package.json", "requirements.txt"]).describe("Type of dependency file"),
-  },
-  async ({ file_content, file_type }) => {
-    try {
-      let dependencyData;
-      
-      if (file_type === "package.json") {
-        dependencyData = parsePackageJson(file_content);
-      } else {
-        dependencyData = parseRequirementsTxt(file_content);
-      }
-
-      console.log("Dependency data:", dependencyData);
-      
-      const suggestions = analyzeDependenciesAndSuggestMcps(dependencyData, file_type);
-      
-      if (suggestions.length === 0) {
-        return formatMcpResponse({ 
-          suggestions: [],
-          message: "No relevant MCPs found based on your dependencies."
-        });
-      }
-      
-      return formatMcpResponse({ suggestions });
-    } catch (error) {
-      console.error("Error suggesting MCPs:", error);
-      return formatMcpResponse(null, `Error analyzing dependencies: ${error.message}`);
-    }
-  }
-);
-
-/**
- * Install MCPs for the user
- */
-server.tool(
-  "install_mcps",
-  "Install specified MCPs in the project",
-  {
-    mcps: z.array(z.string()).describe("Array of MCP names to install"),
-    package_manager: z.enum(["npm", "pip"]).describe("Package manager to use for installation"),
-    dev_dependency: z.boolean().optional().default(false).describe("Install as dev dependency (npm only)"),
-  },
-  async ({ mcps}) => {
-    try {
-      // Validate MCPs exist
-      const invalidMcps = mcps.filter(name => !AVAILABLE_MCPS[name.toLowerCase()]);
-      if (invalidMcps.length > 0) {
-        return formatMcpResponse(null, `Invalid MCP names: ${invalidMcps.join(', ')}`);
-      }
-      
-      // Generate installation commands for each MCP
-      const installCommands = mcps.map(name => {
-        const mcp = AVAILABLE_MCPS[name.toLowerCase()];
-        return `npx install-mcp ${mcp.installation.command || ''}`;
-      });
-      
-      // Create a formatted response with copyable commands
-      const commandsText = installCommands.join('\n');
-      
-      return formatMcpResponse({
-        commands: installCommands,
-        message: "Copy and run the following commands to install the selected MCPs:",
-        commandsText: `\`\`\`bash\n${commandsText}\n\`\`\``
-      });
-    } catch (error) {
-      console.error("Error installing MCPs:", error);
-      return formatMcpResponse(null, `Error installing MCPs: ${error.message}`);
-    }
+  "giga_autorun",
+  "Returns a prompt template for automatically updating project documentation with high-level project information",
+  {},
+  async () => {
+    return {
+      content: [
+        {
+          type: "text",
+          text: PROMPTS.GIGA_AUTORUN
+        }
+      ]
+    };
   }
 );
 
@@ -291,12 +151,12 @@ app.get("/sse", (req, res) => {
 
 app.post("/messages", (req, res) => {
   if (transport) {
-    console.log("Received message");
+    console.log(MESSAGES.MESSAGE_RECEIVED);
     transport.handlePostMessage(req, res);
   }
 });
 
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
-  console.log(`MCP Recommender server running on port ${PORT}`);
+  console.log(MESSAGES.SERVER_START.replace('{port}', PORT));
 });
