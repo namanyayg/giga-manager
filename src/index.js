@@ -1,12 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
-import { z } from "zod";
-import express from "express";
-import dotenv from "dotenv";
-import fs from "fs";
-import path from "path";
-
-dotenv.config();
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 const FILEPATHS = {
   PROJECT_DOCUMENTATION: ".giga/project.md",
@@ -66,59 +59,6 @@ This might include preferences about code style, what technical libraries should
 };
 
 /**
- * @type {Object.<string, string>} MESSAGES - Centralized error and system messages used throughout the application
- */
-const MESSAGES = {
-  // Error messages
-  ERROR_DOCUMENTATION_UPDATE: "Error generating documentation update prompt: {error}",
-  ERROR_DOCUMENTATION_READ: "Error reading project documentation: {error}",
-  
-  // Server messages
-  SERVER_START: "Giga MCP server running on port {port}",
-  MESSAGE_RECEIVED: "Received message"
-};
-
-const app = express();
-
-/**
- * File Management Utilities
- */
-const FileManager = {
-  /**
-   * Get the path to the .giga directory
-   */
-  getGigaDir: () => path.join(process.cwd(), '.giga'),
-
-  /**
-   * Ensure a directory exists
-   */
-  ensureDir: (dirPath) => {
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true });
-    }
-    return dirPath;
-  },
-
-  /**
-   * Read a file's content
-   */
-  readFile: (filePath) => {
-    if (fs.existsSync(filePath)) {
-      return fs.readFileSync(filePath, 'utf8');
-    }
-    return '';
-  },
-
-  /**
-   * Get the path for a specific project file
-   */
-  getProjectFilePath: (filename) => {
-    const gigaDir = FileManager.ensureDir(FileManager.getGigaDir());
-    return path.join(gigaDir, filename);
-  }
-};
-
-/**
  * Create a new MCP server instance
  */
 const server = new McpServer({
@@ -145,22 +85,13 @@ server.tool(
   }
 );
 
-// Setup SSE transport
-let transport = null;
+async function main() {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("Giga MCP Server running on stdio");
+}
 
-app.get("/sse", (req, res) => {
-  transport = new SSEServerTransport("/messages", res);
-  server.connect(transport);
-});
-
-app.post("/messages", (req, res) => {
-  if (transport) {
-    console.log(MESSAGES.MESSAGE_RECEIVED);
-    transport.handlePostMessage(req, res);
-  }
-});
-
-const PORT = process.env.PORT || 9000;
-app.listen(PORT, () => {
-  console.log(MESSAGES.SERVER_START.replace('{port}', PORT));
+main().catch((error) => {
+  console.error("Fatal error in main():", error);
+  process.exit(1);
 });

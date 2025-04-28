@@ -1,30 +1,44 @@
-# Giga MCP
+# Giga Project & Task Management MCP
 
-Install and manage Model Context Protocol (MCP) packages as required by your current project.
+Manage project memory and tasks for your AI projects
 
-It can:
+## Problem
 
-* List some MCPs (`list_available_mcps`)
-* Tell you more about a specific MCP (`get_mcp_details`)
-* Look at your `package.json` or `requirements.txt` to suggest useful MCPs (`suggest_mcps`)
-* Provide installation commands for suggested MCPs (`install_mcps`)
+AI coding tools like Cursor often get lost about the project and forget what the user has asked for.
 
-## Usage
+This leads to frustration, repeated explanations, and broken flow. 
 
-1.  Make sure you have Node.js installed.
-2.  Install the dependencies:
-    ```bash
-    npm install
-    ```
-3.  (Optional) Create a `.env` file if you want to change the port (or just use the default 9000).
-    ```
-    PORT=your_preferred_port
-    ```
-4.  Start the server:
-    ```bash
-    node src/index.js
-    ```
-5.  Connect to an MCP client like Cursor or Windsurf via `https://localhost:9000/sse`
+This MCP automatically manages your project and tasks via files:
+
+* `.giga/project.md`: Contains a technical overview of your project's high-level information
+* `.giga/memory.md`: Retains a "memory" of all the decisions you have taken on the project.
+
+## Installation
+
+1. Install the MCP in your IDE:
+
+```json
+{
+  "mcpServers": {
+    "giga-mcp": {
+      "command": "npx",
+      "args": ["-y", "giga-mcp"],
+    }
+  }
+}
+```
+
+2. Add this one line to your rules file (`.cursorrules` for Cursor, `.windsurfrules` for Windsurf, etc)
+
+```md
+ON EVERY PROMPT, RUN `giga_autorun` TOOL CALL
+```
+
+## Features
+
+* Automated project documentation management
+* Project memory tracking and management
+* Integration with MCP clients like Cursor, Windsurf, etc
 
 ## License
 
