@@ -12,7 +12,7 @@
   "keywords": [],
   "author": "Namanyay Goel",
   "license": "AGPL-3.0-only",
-  "description": "MCP server for suggesting and installing Model Context Protocol packages",
+  "description": "Project memory and task management for your codebase",
   "files": [
     "build"
   ],
