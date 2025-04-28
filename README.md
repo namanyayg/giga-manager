@@ -13,6 +13,9 @@ This MCP automatically manages your project and tasks via files:
 * `.giga/project.md`: Contains a technical overview of your project's high-level information
 * `.giga/memory.md`: Retains a "memory" of all the decisions you have taken on the project.
 
+
+https://github.com/user-attachments/assets/3aa25ae8-40c5-4188-9987-684c4f3602cc
+
 ## Installation
 
 1. Automatically install `giga-mcp` in the client of your choice:
