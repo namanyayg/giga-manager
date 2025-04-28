@@ -54,6 +54,8 @@ FILE: ${FILEPATHS.PROJECT_MEMORY}
 This file contains "memory" or instructions that the user wants to follow.
 
 This might include preferences about code style, what technical libraries should and should not be used, and any general instructions about the project.
+
+STRICTLY only add what the user explicitly had asked for, DO NOT add any other information yourself.
 </ProjectMemory>
 `
 };

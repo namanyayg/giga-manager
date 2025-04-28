@@ -31,7 +31,7 @@ This MCP automatically manages your project and tasks via files:
 2. Add this one line to your rules file (`.cursorrules` for Cursor, `.windsurfrules` for Windsurf, etc)
 
 ```md
-ON EVERY PROMPT, RUN `giga_autorun` TOOL CALL
+EVERY TIME RUN `giga_autorun` TOOL CALL AS THE FIRST THING. DO THAT BEFORE DOING ANYTHING ELSE. STRICTLY FOLLOW ALL INSTRUCTIONS FROM THE RESULT FIRST!
 ```
 
 ## Features
