@@ -5,8 +5,8 @@ The MCP (Memory and Control Protocol) server is designed to handle project memor
 
 ## Core Functionality
 - Project Memory Management
-  - Persistent storage of project state in `.giga` directory
-  - Project documentation management
+  - Persistent storage of project state in `.giga/memory` directory
+  - Unified project memory management
   - State synchronization through MCP protocol
 - Task Management
   - Task execution through MCP protocol
@@ -30,8 +30,8 @@ The MCP server follows a modular architecture with the following components:
    - Server-Sent Events (SSE) for real-time communication
 
 2. **Memory Module**
-   - File-based storage in `.giga` directory
-   - Project documentation management
+   - File-based storage in `.giga/memory` directory
+   - Unified project memory management
    - File system utilities for state persistence
 
 3. **API Layer**
@@ -52,8 +52,9 @@ The MCP server follows a modular architecture with the following components:
 giga-manager/
 ├── src/
 │   └── index.js        # Main server implementation
-├── .giga/              # Project memory storage
-│   └── project.md      # Project documentation
+├── .giga/              # Project root directory
+│   └── memory/         # Project memory storage
+│       └── memory.md   # Combined project memory file
 ├── package.json        # Project dependencies
 └── .env                # Environment configuration
-```
+``` 

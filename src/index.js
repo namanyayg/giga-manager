@@ -2,8 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 const FILEPATHS = {
-  PROJECT_DOCUMENTATION: ".giga/project.md",
-  PROJECT_MEMORY: ".giga/memory.md",
+  MEMORY: ".giga/memory/memory.md",
 }
 
 /**
@@ -13,50 +12,42 @@ const PROMPTS = {
   // Giga autorun prompt
   GIGA_AUTORUN: `You are an expert project manager and help the user in managing their project and tasks.
 
-FOR EVERY PROMPT BY THE USER, ALWAYS FIRST READ ALL PROJECT DOCUMENTATION:
+FOR EVERY PROMPT BY THE USER, ALWAYS FIRST READ THE PROJECT MEMORY:
 
-${FILEPATHS.PROJECT_DOCUMENTATION}
-${FILEPATHS.PROJECT_MEMORY}
+${FILEPATHS.MEMORY}
 
 TO HAVE FULL CONTEXT, THEN RESPOND.
 
-Based on the conversation, you might need to update the above files. ALWAYS DO THAT WITH THE LEAST AMOUNT OF TEXT, NO OVERLY DETAILED EXPLANATIONS, NO BUZZWORDS, NO FLUFF.
+Based on the conversation, you might need to update the memory file. ALWAYS DO THAT WITH THE LEAST AMOUNT OF TEXT, NO OVERLY DETAILED EXPLANATIONS, NO BUZZWORDS, NO FLUFF.
 DO NOT ADD ANYTHING THAT THE USER HAS NOT EXPLICITLY SAID. Do not create additional details, do not add more info, just write the LEAST amount of info that the user has asked for.
 FOLLOW ALL INSTRUCTIONS BELOW EVERY TIME YOU TALK:
 
-<ProjectDocumentation>
-FILE: ${FILEPATHS.PROJECT_DOCUMENTATION}
+<Memory>
+FILE: ${FILEPATHS.MEMORY}
 
-First, review the project documentation file FULLY. 
+First, review the memory file FULLY. 
 
-If the project file does not exist, ASK THE USER more details about what they want to do and create the file with EXACTLY what they say (don't add useless extra info)
+If the file does not exist, ASK THE USER more details about what they want to do and create the file with EXACTLY what they say (don't add useless extra info)
 
-If the user is saying something that contradicts the current documentation, ASK the user, then update the documentation to reflect the new information.
+If the user is saying something that contradicts the current memory, ASK the user, then update the memory to reflect the new information.
 
-Each and EVERY WORD in the documentation must be accurate, if you think the documentation is wrong, ASK THE USER AND REMOVE IRRELEVANT INFORMATION.
+Each and EVERY WORD in the memory must be accurate, if you think the memory is wrong, ASK THE USER AND REMOVE IRRELEVANT INFORMATION.
 
-If the conversation contains information relating to a high-level understanding of the project, update the file at ${FILEPATHS.PROJECT_DOCUMENTATION} accordingly. This includes:
-
+The memory file contains:
 - Project architecture and design decisions
 - Core functionality and features
 - Important technical decisions and their rationale
 - Project goals and objectives
-- Do not include information about setup, deployment, testing, or other non-project-related information.
+- Project preferences and instructions
+- Code style preferences
+- Technical library preferences
+- Any general instructions about the project
+- Any other project-related information the user wants to remember
 
 While managing this, it is MOST IMPORTANT to not hallucinate or make up information. Write less, but be accurate about what the user has said. Rather than hallucinating information, ASK THE USER FOR MORE INFORMATION if you are unsure.
 
-The documentation serves as a single source of truth for the project's technical understanding.
-</ProjectDocumentation>
-
-<ProjectMemory>
-FILE: ${FILEPATHS.PROJECT_MEMORY}
-
-This file contains "memory" or instructions that the user wants to follow.
-
-This might include preferences about code style, what technical libraries should and should not be used, and any general instructions about the project.
-
-STRICTLY only add what the user explicitly had asked for, DO NOT add any other information yourself.
-</ProjectMemory>
+The memory serves as a single source of truth for ALL project information, technical understanding, and preferences.
+</Memory>
 `,
   GIGA_PUSH_FEATURE: `This command is called after the user has finished writing code for a feature.
 
@@ -81,7 +72,7 @@ STRICTLY only add what the user explicitly had asked for, DO NOT add any other i
   Your job now is to merge the pull request on github.
 
   Commands to execute:
-    gh pr merge --auto --squash # Merge the pull request
+    gh pr merge --auto --squash --delete-branch # Merge the pull request
   `
 };
 
@@ -122,7 +113,7 @@ function registerPromptTool(name, description, promptKey) {
  */
 registerPromptTool(
   "giga_autorun",
-  "Returns a prompt template for automatically updating project documentation with high-level project information",
+  "Returns a prompt template for automatically updating project memory with high-level project information",
   "GIGA_AUTORUN"
 );
 

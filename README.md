@@ -10,9 +10,7 @@ This leads to frustration, repeated explanations, and broken flow.
 
 This MCP automatically manages your project and tasks via files:
 
-* `.giga/project.md`: Contains a technical overview of your project's high-level information
-* `.giga/memory.md`: Retains a "memory" of all the decisions you have taken on the project.
-
+* `.giga/memory/memory.md`: Contains all project information including technical overview, decisions, preferences, and instructions
 
 https://github.com/user-attachments/assets/3aa25ae8-40c5-4188-9987-684c4f3602cc
 
@@ -51,7 +49,7 @@ https://github.com/user-attachments/assets/d98863a2-a5d4-4fd0-b301-de497fc20cc9
 
 ## Features
 
-* Automated project documentation management
+* Automated project memory management
 * Project memory tracking and management
 * Integration with MCP clients like Cursor, Windsurf, etc
 
