@@ -70,7 +70,7 @@ STRICTLY only add what the user explicitly had asked for, DO NOT add any other i
     git checkout -b feature/your-feature-name # Create a new feature branch
     git add . # Add all changes to the staging area
     git commit -m "Your commit message" # Commit the changes
-    git push origin feature/your-feature-name # Push the changes to the remote repository
+    git push -u origin feature/your-feature-name # Push the changes to the remote repository
 
     # Create a new pull request
     gh pr create --base main --head feature/your-feature-name --title "Your PR title" --body "Description of your changes"
