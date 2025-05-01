@@ -74,6 +74,14 @@ STRICTLY only add what the user explicitly had asked for, DO NOT add any other i
 
     # Create a new pull request
     gh pr create --base main --head feature/your-feature-name --title "Your PR title" --body "Description of your changes"
+  `,
+
+  GIGA_MERGE_FEATURE: `This command is called after the user has finished reviewing the pull request.
+
+  Your job now is to merge the pull request on github.
+
+  Commands to execute:
+    gh pr merge --auto --squash # Merge the pull request
   `
 };
 
@@ -122,6 +130,12 @@ registerPromptTool(
   "giga_push_feature",
   "Returns a prompt template for pushing feature changes and creating a pull request",
   "GIGA_PUSH_FEATURE"
+);
+
+registerPromptTool(
+  "giga_merge_feature",
+  "Returns a prompt template for merging a pull request",
+  "GIGA_MERGE_FEATURE"
 );
 
 async function main() {
