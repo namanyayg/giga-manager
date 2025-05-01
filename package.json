@@ -1,11 +1,11 @@
 {
-  "name": "giga-mcp",
+  "name": "giga-manager",
   "version": "1.0.6",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "bin": {
-    "giga-mcp": "./dist/index.js"
+    "giga-manager": "./dist/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -47,10 +47,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/namanyayg/giga-mcp.git"
+    "url": "git+https://github.com/namanyayg/giga-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/namanyayg/giga-mcp/issues"
+    "url": "https://github.com/namanyayg/giga-manager/issues"
   },
-  "homepage": "https://github.com/namanyayg/giga-mcp#readme"
+  "homepage": "https://github.com/namanyayg/giga-manager#readme"
 }
