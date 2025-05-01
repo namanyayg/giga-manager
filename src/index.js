@@ -57,7 +57,24 @@ This might include preferences about code style, what technical libraries should
 
 STRICTLY only add what the user explicitly had asked for, DO NOT add any other information yourself.
 </ProjectMemory>
-`
+`,
+  GIGA_PUSH_FEATURE: `This command is called after the user has finished writing code for a feature.
+
+  Your job now is to commit the work, then create a new pull rqeuest on github for this.
+
+  Choose suitable commit message, branch name, etc. Ensure everything is short and descriptive, no buzzwords, very simple language.
+  
+  Your job is to EXECUTE all the following commands, first confirm with the user about commit message and branch name, and tell them what you're going to do.
+
+  Commands to execute:
+    git checkout -b feature/your-feature-name # Create a new feature branch
+    git add . # Add all changes to the staging area
+    git commit -m "Your commit message" # Commit the changes
+    git push origin feature/your-feature-name # Push the changes to the remote repository
+
+    # Create a new pull request
+    gh pr create --base main --head feature/your-feature-name --title "Your PR title" --body "Description of your changes"
+  `
 };
 
 /**
@@ -69,22 +86,42 @@ const server = new McpServer({
 });
 
 /**
- * Get giga_autorun prompt template
+ * Helper function to register a tool that returns a prompt template
+ * @param {string} name - The name of the tool
+ * @param {string} description - The description of the tool
+ * @param {string} promptKey - The key in PROMPTS object for the template
  */
-server.tool(
+function registerPromptTool(name, description, promptKey) {
+  server.tool(
+    name,
+    description,
+    {},
+    async () => {
+      return {
+        content: [
+          {
+            type: "text",
+            text: PROMPTS[promptKey]
+          }
+        ]
+      };
+    }
+  );
+}
+
+/**
+ * Register all tools
+ */
+registerPromptTool(
   "giga_autorun",
   "Returns a prompt template for automatically updating project documentation with high-level project information",
-  {},
-  async () => {
-    return {
-      content: [
-        {
-          type: "text",
-          text: PROMPTS.GIGA_AUTORUN
-        }
-      ]
-    };
-  }
+  "GIGA_AUTORUN"
+);
+
+registerPromptTool(
+  "giga_push_feature",
+  "Returns a prompt template for pushing feature changes and creating a pull request",
+  "GIGA_PUSH_FEATURE"
 );
 
 async function main() {
