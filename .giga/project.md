@@ -12,6 +12,14 @@ The MCP (Memory and Control Protocol) server is designed to handle project memor
   - Task execution through MCP protocol
   - Server-side event handling
   - Message routing and processing
+- Tool Registration System
+  - Centralized prompt management
+  - DRY tool registration helpers
+  - Standardized prompt-based tool implementation
+- PR Automation
+  - Automated feature branch creation
+  - Standardized PR creation process
+  - Git workflow automation
 
 ## System Architecture
 The MCP server follows a modular architecture with the following components:
