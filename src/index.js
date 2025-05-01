@@ -64,7 +64,7 @@ STRICTLY only add what the user explicitly had asked for, DO NOT add any other i
  * Create a new MCP server instance
  */
 const server = new McpServer({
-  name: "giga-mcp",
+  name: "giga-manager",
   version: "1.0.0",
 });
 

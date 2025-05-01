@@ -41,7 +41,7 @@ The MCP server follows a modular architecture with the following components:
 
 ## Project Structure
 ```
-giga-mcp/
+giga-manager/
 ├── src/
 │   └── index.js        # Main server implementation
 ├── .giga/              # Project memory storage

@@ -15,23 +15,23 @@ This MCP automatically manages your project and tasks via files:
 
 ## Installation
 
-1. Automatically install `giga-mcp` in the client of your choice:
+1. Automatically install `giga-manager` in the client of your choice:
 
 ```sh
-npx -y install-mcp -i "npx -y giga-mcp" --client cursor # or windsurf, cline, etc
+npx -y install-mcp -i "npx -y giga-manager" --client cursor # or windsurf, cline, etc
 ```
 
-* Installation command: `npx -y giga-mcp`
-* MCP name: `giga-mcp`
+* Installation command: `npx -y giga-manager`
+* MCP name: `giga-manager`
 
 Or, install it manually by modifying your JSON file:
 
 ```json
 {
   "mcpServers": {
-    "giga-mcp": {
+    "giga-manager": {
       "command": "npx",
-      "args": ["-y", "giga-mcp"],
+      "args": ["-y", "giga-manager"],
     }
   }
 }
