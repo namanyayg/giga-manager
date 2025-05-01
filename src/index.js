@@ -60,7 +60,7 @@ STRICTLY only add what the user explicitly had asked for, DO NOT add any other i
 `,
   GIGA_PUSH_FEATURE: `This command is called after the user has finished writing code for a feature.
 
-  Your job now is to commit the work, then create a new pull rqeuest on github for this.
+  Your job now is to commit the work, then create a new pull request on github for this.
 
   Choose suitable commit message, branch name, etc. Ensure everything is short and descriptive, no buzzwords, very simple language.
   
