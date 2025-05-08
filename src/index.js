@@ -3,6 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 
 const FILEPATHS = {
   MEMORY: ".giga/memory/memory.md",
+  PLANS_DIR: ".giga/plans/",
 }
 
 /**
@@ -73,7 +74,61 @@ The memory serves as a single source of truth for ALL project information, techn
 
   Commands to execute:
     gh pr merge --auto --squash --delete-branch # Merge the pull request
-  `
+  `,
+  GIGA_PLAN: `You are an expert project planner. The user wants to plan a new feature.
+
+The user will invoke this by saying "giga plan <feature explanation>".
+
+Your tasks are:
+
+1.  **Understand the Feature:**
+    *   Carefully read the "<feature explanation>" provided by the user.
+    *   Identify the core requirements and goals of this feature.
+    *   Use the project memory (\`${FILEPATHS.MEMORY}\`) to understand the project context.
+
+2.  **Gather Context & Clarify:**
+    *   Based on the feature explanation, identify all potentially relevant files in the codebase that might need to be read, modified, or created.
+    *   Provide other similar files in the plan as well, to provide as examples to the AI so it can use existing patterns.
+    *   List these files for the user.
+    *   If the feature explanation is unclear, or if you need more details to create an effective plan, ASK THE USER clarifying questions. Do not proceed with a vague understanding.
+
+3.  **Create a Plan File:**
+    *   Once you have sufficient clarity and have identified relevant files:
+        *   Create a new plan file. The filename should be descriptive of the feature (e.g., \`feature-name-plan.md\`) and located under the \`${FILEPATHS.PLANS_DIR}\` directory.
+        *   The plan should be written in markdown.
+
+4.  **Plan Content Guidelines:**
+    *   **Simplicity is Key:** The plan must be the simplest possible path to implement the feature. Avoid over-engineering, buzzwords, and unnecessary complications.
+    *   **File References:** CRITICALLY IMPORTANT: Explicitly list all relevant files that will be involved in implementing this feature (e.g., files to be created, modified, or consulted). This provides full context.
+    *   **Clear Steps:** Outline the steps needed to implement the feature in a clear, concise, and actionable manner.
+    *   **No Code Implementation:** This is a planning phase. Do NOT write any code in the plan file itself. Focus on *what* needs to be done, not *how* it's done in terms of actual code.
+
+Example plan structure:
+
+\`\`\`markdown
+# Plan for: <Feature Name>
+
+**Feature Description:** <Brief re-statement of the feature>
+
+**Relevant Files:**
+*   \`src/module/file1.js\` (modification)
+*   \`src/new_feature/component.jsx\` (creation)
+*   \`docs/api/feature.md\` (creation/update)
+
+**Clarifying Questions Asked (and Answers):**
+*   Q: <Your question to the user>
+    A: <User's answer>
+
+**Steps:**
+1. Provide steps to implement the feature here.
+\`\`\`
+
+IN THE PLAN, ALWAYS STRESS WRITING SIMPLEST AND EASIEST CODE TO IMPLEMENT THE RESULT.
+FIRST REFER TO THE MEMORY FILE TO UNDERSTAND THE PROJECT.
+STRICTLY DO NOT WRITE ANY CODE, ONLY PLAN AND CREATE THE PLAN FILE FOR NOW. 
+TRY AND ANSWER ALL QUESTIONS YOURSELF FIRST, IF YOU ARE UNABLE TO ANSWER, THEN ASK THE USER. ASK QUESTIONS IN A SIMPLE AND SHORT WAY, DONT MAKE THE USER READ. 
+DO NOT DO WRITE ANY CODE OR DO ANY IMPLEMENTATION, JUST CREATE THE PLAN FILE.
+`
 };
 
 /**
@@ -127,6 +182,12 @@ registerPromptTool(
   "giga_merge_feature",
   "Returns a prompt template for merging a pull request",
   "GIGA_MERGE_FEATURE"
+);
+
+registerPromptTool(
+  "giga_plan",
+  "Generates a plan for a new feature, identifying relevant files and asking clarifying questions.",
+  "GIGA_PLAN"
 );
 
 async function main() {
