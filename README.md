@@ -53,6 +53,13 @@ https://github.com/user-attachments/assets/d98863a2-a5d4-4fd0-b301-de497fc20cc9
 * Project memory tracking and management
 * Integration with MCP clients like Cursor, Windsurf, etc
 
+## Available Tools
+
+-   **`giga_autorun`**: Returns a prompt template for automatically updating project memory with high-level project information. This tool is typically run automatically at the beginning of each interaction to ensure the AI has the latest project context.
+-   **`giga_push_feature`**: Returns a prompt template for pushing feature changes and creating a pull request. Use this after you've completed coding a feature and are ready to commit and share it.
+-   **`giga_merge_feature`**: Returns a prompt template for merging a pull request. Use this when a feature's pull request has been reviewed and is ready to be merged into the main branch.
+-   **`giga_plan`**: Generates a plan for a new feature. Use "giga plan <feature explanation>" to have the AI help you outline the steps, identify relevant files, and ask clarifying questions before you start coding.
+
 ## License
 
 This project is licensed under the AGPL-3.0-only license - see the [LICENSE](LICENSE) file for details.
