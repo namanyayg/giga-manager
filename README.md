@@ -14,9 +14,7 @@ Automates the process of pushing feature changes and creating pull requests with
 ### 4. Pull Request Merge Workflow
 Handles the merging of reviewed pull requests into the main branch with proper procedures.
 
-## Features
-
-### Project Memory
+## Project Memory
 
 **Problem**: AI assistants lose context between conversations, leading to repetitive explanations
 
@@ -29,7 +27,7 @@ You start a new conversation about adding a feature
 → _AI can immediately help without needing context_  
 → _AI updates the memory with new information_  
 
-### Planning
+## Planning
 
 **Problem**: Starting new features without proper planning leads to wasted time and AI doing out of scope work
 
@@ -43,7 +41,7 @@ You: "giga plan user authentication system"
 → _Asks clarifying questions_  
 → _Creates plan_  
 
-### PR Creation Workflow
+## PR Creation Workflow
 
 **Problem**: Automate the time consuming process of creating a pull request
 
@@ -54,7 +52,7 @@ You complete a feature implementation and say "giga push the current feature"
 → _AI creates feature branch with consistent naming_  
 → _AI generates PR with proper description and context_  
 
-### Pull Request Merge Workflow
+## Pull Request Merge Workflow
 
 **Problem**: Automate merging a pull request
 
