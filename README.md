@@ -20,29 +20,28 @@ Handles the merging of reviewed pull requests into the main branch with proper p
 
 **Problem**: AI assistants lose context between conversations, leading to repetitive explanations
 
-Giga Manager's Memory feature automatically loads and updates project memory at the start of each interaction, ensuring the AI always has the latest project context, technical decisions, and user preferences.
+Giga automatically manages project memory, ensuring the AI always has the latest project context, technical decisions, and preferences.
 
 **Example**: 
 
-User starts a new conversation about adding a feature  
-→ AI reads existing project memory  
-→ AI understands current project architecture, preferences, and context  
-→ AI can immediately help without needing project re-explanation  
-→ AI optionally updates the memory with new information (stored in .giga/memory/memory.md)  
+You start a new conversation about adding a feature  
+→ _AI reads existing project memory_  
+→ _AI can immediately help without needing context_  
+→ _AI updates the memory with new information_  
 
 ### Planning
 
 **Problem**: Starting new features without proper planning leads to wasted time and AI doing out of scope work
 
-Giga Manager's Planning feature generates structured plans that identify relevant files, ask clarifying questions, and outline implementation steps before coding begins.
+Giga generates structured plans that identify relevant files, asks clarifying questions, and outlines implementation steps before coding begins.
 
 **Example**:
 
-User: "giga plan user authentication system"  
-→ AI analyzes current codebase  
-→ Identifies relevant files (auth routes, user models, middleware)  
-→ Asks clarifying questions (OAuth providers? Password requirements? Session management?)  
-→ Outlines implementation steps (database schema, API endpoints, frontend components)  
+You: "giga plan user authentication system"  
+→ _AI analyzes current codebase_  
+→ _Identifies relevant files (auth routes, user models, middleware)_  
+→ _Asks clarifying questions_  
+→ _Creates plan_  
 
 ### PR Creation Workflow
 
@@ -50,10 +49,10 @@ User: "giga plan user authentication system"
 
 **Example**:
 
-User completes a feature implementation and says "giga push the current feature"  
-→ AI guides through proper commit messages  
-→ AI creates feature branch with consistent naming  
-→ AI generates PR with proper description and context  
+You complete a feature implementation and say "giga push the current feature"  
+→ _AI guides through proper commit messages_  
+→ _AI creates feature branch with consistent naming_  
+→ _AI generates PR with proper description and context_  
 
 ### Pull Request Merge Workflow
 
@@ -61,8 +60,8 @@ User completes a feature implementation and says "giga push the current feature"
 
 **Example**:
 
-Feature PR is ready for merge. User says "giga merge"  
-→ AI automates proper merge procedure
+Feature PR is ready for merge. You say "giga merge"  
+→ _AI automates proper merge procedure_  
 
 ## Installation
 
