@@ -69,6 +69,8 @@ Install the "Giga AI" extension from within Cursor, Windsurf, or any other IDE.
 
 Search for "Giga AI" in the extension marketplace and install it.
 
+https://github.com/user-attachments/assets/063770c4-7621-458e-86cb-12f456437aec
+
 ### Manual Installation
 
 1. Identify the path for your MCP JSON file.
