@@ -1,8 +1,6 @@
 # Giga Manager MCP
 
-Supercharge your AI coding experience with Giga Manager.
-
-## Features
+Supercharge your AI coding experience with Giga Manager. Features:
 
 ### 1. Project Memory
 Automatically updates and maintains project memory with high-level project information to ensure AI has the latest context.
@@ -16,9 +14,9 @@ Automates the process of pushing feature changes and creating pull requests with
 ### 4. Pull Request Merge Workflow
 Handles the merging of reviewed pull requests into the main branch with proper procedures.
 
----
+## Features
 
-## Project Memory
+### Project Memory
 
 **Problem**: AI assistants lose context between conversations, leading to repetitive explanations
 
@@ -26,14 +24,13 @@ Giga Manager's Memory feature automatically loads and updates project memory at 
 
 **Example**: 
 
-User starts a new conversation about adding a feature
-→ AI reads existing project memory
-→ AI understands current project architecture, preferences, and context
-→ AI can immediately help without needing project re-explanation
-→ AI optionally updates the memory with new information (stored in .giga/memory/memory.md)
+User starts a new conversation about adding a feature  
+→ AI reads existing project memory  
+→ AI understands current project architecture, preferences, and context  
+→ AI can immediately help without needing project re-explanation  
+→ AI optionally updates the memory with new information (stored in .giga/memory/memory.md)  
 
-
-## Planning
+### Planning
 
 **Problem**: Starting new features without proper planning leads to wasted time and AI doing out of scope work
 
@@ -41,31 +38,30 @@ Giga Manager's Planning feature generates structured plans that identify relevan
 
 **Example**:
 
-User: "giga plan user authentication system"
-→ AI analyzes current codebase
-→ Identifies relevant files (auth routes, user models, middleware)
-→ Asks clarifying questions (OAuth providers? Password requirements? Session management?)
-→ Outlines implementation steps (database schema, API endpoints, frontend components)
+User: "giga plan user authentication system"  
+→ AI analyzes current codebase  
+→ Identifies relevant files (auth routes, user models, middleware)  
+→ Asks clarifying questions (OAuth providers? Password requirements? Session management?)  
+→ Outlines implementation steps (database schema, API endpoints, frontend components)  
 
-## PR Creation Workflow
+### PR Creation Workflow
 
 **Problem**: Automate the time consuming process of creating a pull request
 
 **Example**:
 
-User completes a feature implementation and says "giga push the current feature"
-→ AI guides through proper commit messages
-→ AI creates feature branch with consistent naming
-→ AI generates PR with proper description and context
+User completes a feature implementation and says "giga push the current feature"  
+→ AI guides through proper commit messages  
+→ AI creates feature branch with consistent naming  
+→ AI generates PR with proper description and context  
 
-
-## Pull Request Merge Workflow
+### Pull Request Merge Workflow
 
 **Problem**: Automate merging a pull request
 
 **Example**:
 
-Feature PR is ready for merge. User says "giga merge"
+Feature PR is ready for merge. User says "giga merge"  
 → AI automates proper merge procedure
 
 ## Installation
