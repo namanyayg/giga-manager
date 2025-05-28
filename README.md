@@ -1,31 +1,86 @@
-# Giga Project & Task Management MCP
+# Giga Manager MCP
 
-Manage project memory and tasks for your AI projects
+Supercharge your AI coding experience with Giga Manager.
 
-## Problem
+## Features
 
-AI coding tools like Cursor often get lost about the project and forget what the user has asked for.
+### 1. [Project Memory](#giga_autorun)
+Automatically updates and maintains project memory with high-level project information to ensure AI has the latest context.
 
-This leads to frustration, repeated explanations, and broken flow. 
+### 2. [Planning](#giga_plan)
+Generates comprehensive plans for new features, identifying relevant files and asking clarifying questions.
 
-This MCP automatically manages your project and tasks via files:
+### 3. [PR Creation Workflow](#giga_push_feature)
+Automates the process of pushing feature changes and creating pull requests with proper workflow.
 
-* `.giga/memory/memory.md`: Contains all project information including technical overview, decisions, preferences, and instructions
+### 4. [Pull Request Merge Workflow](#giga_merge_feature)
+Handles the merging of reviewed pull requests into the main branch with proper procedures.
 
-https://github.com/user-attachments/assets/3aa25ae8-40c5-4188-9987-684c4f3602cc
+---
+
+## Project Memory
+
+**Problem**: AI assistants lose context between conversations, leading to repetitive explanations
+
+Giga Manager's Memory feature automatically loads and updates project memory at the start of each interaction, ensuring the AI always has the latest project context, technical decisions, and user preferences.
+
+**Example**: 
+```
+User starts a new conversation about adding a feature
+→ AI reads existing project memory
+→ AI understands current project architecture, preferences, and context
+→ AI can immediately help without needing project re-explanation
+→ AI optionally updates the memory with new information (stored in .giga/memory/memory.md)
+```
+
+## Planning
+
+**Problem**: Starting new features without proper planning leads to wasted time and AI doing out of scope work
+
+Giga Manager's Planning feature generates structured plans that identify relevant files, ask clarifying questions, and outline implementation steps before coding begins.
+
+**Example**:
+```
+User: "giga plan user authentication system"
+→ AI analyzes current codebase
+→ Identifies relevant files (auth routes, user models, middleware)
+→ Asks clarifying questions (OAuth providers? Password requirements? Session management?)
+→ Outlines implementation steps (database schema, API endpoints, frontend components)
+```
+
+## PR Creation Workflow
+
+**Problem**: Automate the time consuming process of creating a pull request
+
+**Example**:
+```
+User completes a feature implementation and says "giga push the current feature"
+→ AI guides through proper commit messages
+→ AI creates feature branch with consistent naming
+→ AI generates PR with proper description and context
+```
+
+## Pull Request Merge Workflow
+
+**Problem**: Automate merging a pull request
+
+**Example**:
+```
+Feature PR is ready for merge. User says "giga merge"
+→ AI automates proper merge procedure
+```
 
 ## Installation
 
-1. Automatically install `giga-manager` in the client of your choice:
+### Extension Installation (Recommended)
 
-```sh
-npx -y install-mcp -i "npx -y giga-manager" --client cursor # or windsurf, cline, etc
-```
+Install the "Giga AI" extension from within Cursor, Windsurf, or any other IDE.
 
-* Installation command: `npx -y giga-manager`
-* MCP name: `giga-manager`
+Search for "Giga AI" in the extension marketplace and install it.
 
-Or, install it manually by modifying your JSON file:
+### Manual Installation
+
+Install it manually by modifying your JSON file:
 
 ```json
 {
@@ -43,22 +98,6 @@ Or, install it manually by modifying your JSON file:
 ```md
 EVERY TIME RUN `giga_autorun` TOOL CALL AS THE FIRST THING. DO THAT BEFORE DOING ANYTHING ELSE. STRICTLY FOLLOW ALL INSTRUCTIONS FROM THE RESULT FIRST!
 ```
-
-https://github.com/user-attachments/assets/d98863a2-a5d4-4fd0-b301-de497fc20cc9
-
-
-## Features
-
-* Automated project memory management
-* Project memory tracking and management
-* Integration with MCP clients like Cursor, Windsurf, etc
-
-## Available Tools
-
--   **`giga_autorun`**: Returns a prompt template for automatically updating project memory with high-level project information. This tool is typically run automatically at the beginning of each interaction to ensure the AI has the latest project context.
--   **`giga_push_feature`**: Returns a prompt template for pushing feature changes and creating a pull request. Use this after you've completed coding a feature and are ready to commit and share it.
--   **`giga_merge_feature`**: Returns a prompt template for merging a pull request. Use this when a feature's pull request has been reviewed and is ready to be merged into the main branch.
--   **`giga_plan`**: Generates a plan for a new feature. Use "giga plan <feature explanation>" to have the AI help you outline the steps, identify relevant files, and ask clarifying questions before you start coding.
 
 ## License
 
