@@ -71,6 +71,10 @@ Search for "Giga AI" in the extension marketplace and install it.
 
 https://github.com/user-attachments/assets/063770c4-7621-458e-86cb-12f456437aec
 
+Then, install the MCP by going to settings, selecting your IDE, and pressing the Install Workflows button.
+
+![image](https://github.com/user-attachments/assets/4c78294f-8bf5-4214-acd6-80cf06142918)
+
 ### Manual Installation
 
 1. Identify the path for your MCP JSON file.
