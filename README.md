@@ -65,9 +65,7 @@ Feature PR is ready for merge. You say "giga merge"
 
 ### Extension Installation (Recommended)
 
-Install the "Giga AI" extension from within Cursor, Windsurf, or any other IDE.
-
-Search for "Giga AI" in the extension marketplace and install it.
+Search and install the "Giga AI" extension within VSCode, Cursor, Windsurf, or any other IDE.
 
 https://github.com/user-attachments/assets/063770c4-7621-458e-86cb-12f456437aec
 
